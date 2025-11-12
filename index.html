@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Compras y Ventas</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./js/supabase-config.js"></script>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>MiPlataforma</h2>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link" onclick="showSection('home')">Inicio</a>
+                <a href="#" class="nav-link" onclick="showSection('products')">Productos</a>
+                <!-- Estos enlaces cambian según el estado de autenticación -->
+                <div id="authLinks">
+                    <a href="#" class="nav-link" onclick="showSection('login')">Iniciar Sesión</a>
+                    <a href="#" class="nav-link" onclick="showSection('register')">Registrarse</a>
+                </div>
+                <div id="userMenu" style="display: none;">
+                    <a href="#" id="profileLink" class="nav-link" onclick="showProfile()">Mi Perfil</a>
+                    <a href="#" class="nav-link" onclick="showSection('cart')">Carrito (<span id="cartCount">0</span>)</a>
+                    <button id="logoutBtn" class="nav-link logout-btn">Cerrar Sesión</button>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor principal para todas las secciones -->
+    <main class="main-content" id="mainContent">
+        <!-- Sección Home -->
+        <section id="home-section" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Bienvenido a nuestra plataforma</h1>
+                    <p>Compra y vende productos de forma segura y fácil</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary" onclick="showSection('register')">Registrarse</a>
+                        <a href="#" class="btn btn-secondary" onclick="showSection('products')">Ver Productos</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Login -->
+        <section id="login-section" class="section">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Iniciar Sesión</h2>
+                    
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="loginEmail">Correo electrónico</label>
+                            <input type="email" id="loginEmail" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loginPassword">Contraseña</label>
+                            <input type="password" id="loginPassword" name="password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+                    </form>
+                    
+                    <p class="auth-link">
+                        ¿No tienes cuenta? <a href="#" onclick="showSection('register')">Regístrate</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Register -->
+        <section id="register-section" class="section">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Selecciona tu tipo de cuenta</h2>
+                    <p>Elige cómo quieres usar nuestra plataforma</p>
+                    
+                    <div class="account-type-selector">
+                        <div class="account-type-card" data-type="vendedor">
+                            <h3>Vendedor</h3>
+                            <p>Publica y vende tus productos</p>
+                            <ul>
+                                <li>Gestiona tu inventario</li>
+                                <li>Controla tus ventas</li>
+                                <li>Estadísticas de negocio</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="account-type-card" data-type="comprador">
+                            <h3>Comprador</h3>
+                            <p>Encuentra y compra productos</p>
+                            <ul>
+                                <li>Explora catálogo completo</li>
+                                <li>Historial de compras</li>
+                                <li>Carrito de compras</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Formulario de registro -->
+                    <form id="registerForm" class="auth-form" style="display: none;">
+                        <h3 id="formTitle">Registro</h3>
+                        <input type="hidden" id="userType" name="userType">
+                        
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Contraseña</label>
+                            <input type="password" id="password" name="password" minlength="6" required>
+                        </div>
+                        
+                        <!-- Campos adicionales según el tipo de usuario -->
+                        <div id="vendedorFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="nombre">Nombre completo</label>
+                                <input type="text" id="nombre" name="nombre">
+                            </div>
+                            <div class="form-group">
+                                <label for="negocio">Nombre del negocio</label>
+                                <input type="text" id="negocio" name="negocio">
+                            </div>
+                        </div>
+                        
+                        <div id="compradorFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="nombreComprador">Nombre completo</label>
+                                <input type="text" id="nombreComprador" name="nombreComprador">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">Registrarse</button>
+                    </form>
+                    
+                    <p class="auth-link">
+                        ¿Ya tienes cuenta? <a href="#" onclick="showSection('login')">Inicia sesión</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Products -->
+        <section id="products-section" class="section">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Buscar productos...">
+                    <button id="searchBtn" class="btn btn-primary">Buscar</button>
+                    <button id="clearSearchBtn" class="btn btn-secondary" style="display: none;">Limpiar</button>
+                </div>
+            </div>
+
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label for="sortSelect">Ordenar por:</label>
+                    <select id="sortSelect">
+                        <option value="newest">Más recientes</option>
+                        <option value="price_asc">Precio: Menor a Mayor</option>
+                        <option value="price_desc">Precio: Mayor a Menor</option>
+                        <option value="name">Nombre A-Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="productsContainer" class="products-grid">
+                <!-- Los productos se cargarán dinámicamente aquí -->
+            </div>
+
+            <div id="loadingMessage" class="loading" style="display: none;">
+                <p>Cargando productos...</p>
+            </div>
+
+            <div id="noProductsMessage" class="no-products" style="display: none;">
+                <p>No se encontraron productos.</p>
+            </div>
+        </section>
+
+        <!-- Sección Cart -->
+        <section id="cart-section" class="section">
+            <div class="cart-header">
+                <h1>Carrito de Compras</h1>
+                <a href="#" class="btn btn-secondary" onclick="showSection('products')">Seguir Comprando</a>
+            </div>
+
+            <div id="cartItemsContainer">
+                <!-- Los items del carrito se cargarán dinámicamente aquí -->
+            </div>
+
+            <div id="emptyCartMessage" class="no-products" style="display: none;">
+                <p>Tu carrito está vacío</p>
+                <a href="#" class="btn btn-primary" onclick="showSection('products')">Explorar Productos</a>
+            </div>
+
+            <div id="cartSummary" class="cart-summary" style="display: none;">
+                <div class="cart-total">
+                    <h3>Total: $<span id="cartTotal">0</span> COP</h3>
+                </div>
+                <div class="cart-actions">
+                    <button id="clearCartBtn" class="btn btn-secondary">Vaciar Carrito</button>
+                    <button id="checkoutBtn" class="btn btn-primary">Proceder al Pago</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Profile Vendedor -->
+        <section id="profile-vendedor-section" class="section">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h1>Perfil de Vendedor</h1>
+                    <button id="editProfileBtn" class="btn btn-secondary">Editar Perfil</button>
+                </div>
+                
+                <div class="profile-sections">
+                    <!-- Sección de información personal -->
+                    <section class="profile-section">
+                        <h2>Información Personal</h2>
+                        <div class="profile-info">
+                            <div class="info-item">
+                                <label>Nombre:</label>
+                                <span id="profileNombre"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Negocio:</label>
+                                <span id="profileNegocio"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Email:</label>
+                                <span id="profileEmail"></span>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Sección de estadísticas -->
+                    <section class="profile-section">
+                        <h2>Estadísticas</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3 id="productosVendidos">0</h3>
+                                <p>Productos Vendidos</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="productosPublicados">0</h3>
+                                <p>Productos Publicados</p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Sección de productos publicados -->
+                    <section class="profile-section">
+                        <div class="section-header">
+                            <h2>Mis Productos Publicados</h2>
+                            <button id="addProductBtn" class="btn btn-primary">Agregar Producto</button>
+                        </div>
+                        <div id="productosList" class="products-grid">
+                            <!-- Los productos se cargarán dinámicamente aquí -->
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Modal para agregar/editar producto -->
+                <div id="productModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h2 id="modalTitle">Agregar Producto</h2>
+                        <form id="productForm">
+                            <input type="hidden" id="productId">
+                            <div class="form-group">
+                                <label for="productName">Nombre del Producto</label>
+                                <input type="text" id="productName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productDescription">Descripción</label>
+                                <textarea id="productDescription" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Precio (COP)</label>
+                                <input type="number" id="productPrice" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productImage">Imagen del Producto</label>
+                                <input type="file" id="productImage" accept="image/*">
+                                <div id="imagePreview" class="image-preview"></div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="cancelProductBtn">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Profile Comprador -->
+        <section id="profile-comprador-section" class="section">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h1>Perfil de Comprador</h1>
+                    <button id="editProfileBtnComprador" class="btn btn-secondary">Editar Perfil</button>
+                </div>
+                
+                <div class="profile-sections">
+                    <!-- Sección de información personal -->
+                    <section class="profile-section">
+                        <h2>Información Personal</h2>
+                        <div class="profile-info">
+                            <div class="info-item">
+                                <label>Nombre:</label>
+                                <span id="profileNombreComprador"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Email:</label>
+                                <span id="profileEmailComprador"></span>
+                            </div>
+                            <div class="info-item">
+                                <label>Descripción:</label>
+                                <span id="profileDescripcion"></span>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Sección de estadísticas -->
+                    <section class="profile-section">
+                        <h2>Estadísticas</h2>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3 id="objetosComprados">0</h3>
+                                <p>Objetos Comprados</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="comprasRealizadas">0</h3>
+                                <p>Compras Realizadas</p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Sección de historial de compras -->
+                    <section class="profile-section">
+                        <h2>Historial de Compras</h2>
+                        <div id="historialCompras" class="compras-list">
+                            <!-- El historial se cargará dinámicamente aquí -->
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Modal para editar perfil -->
+                <div id="editProfileModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h2>Editar Perfil</h2>
+                        <form id="editProfileForm">
+                            <div class="form-group">
+                                <label for="editNombre">Nombre completo</label>
+                                <input type="text" id="editNombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editDescripcion">Descripción (opcional)</label>
+                                <textarea id="editDescripcion" rows="4" placeholder="Cuéntanos algo sobre ti..."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="cancelEditBtn">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Detalle Producto -->
+        <section id="product-detail-section" class="section">
+            <div id="productDetailContainer">
+                <!-- El detalle del producto se cargará dinámicamente aquí -->
+            </div>
+
+            <div id="loadingProduct" class="loading">
+                <p>Cargando información del producto...</p>
+            </div>
+
+            <div id="productNotFound" class="no-products" style="display: none;">
+                <p>Producto no encontrado</p>
+                <a href="#" class="btn btn-primary" onclick="showSection('products')">Volver a Productos</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="./js/auth.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/productos.js"></script>
+    <script src="./js/comprador.js"></script>
+    <script src="./js/productos-publicos.js"></script>
+    <script src="./js/carrito.js"></script>
+    <script src="./js/detalle-producto.js"></script>
+</body>
+</html>

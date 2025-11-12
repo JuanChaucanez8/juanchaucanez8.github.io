@@ -1,0 +1,272 @@
+/* Estilos responsive adicionales para SPA */
+
+@media (max-width: 1200px) {
+    .nav-container,
+    .main-content {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Navegación móvil */
+    .nav-menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+    
+    .nav-menu.active {
+        display: flex;
+    }
+    
+    .hamburger {
+        display: flex;
+    }
+    
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    /* Hero section móvil */
+    .hero {
+        padding: 40px 20px;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    /* Grid de productos móvil */
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Selector de tipo de cuenta móvil */
+    .account-type-selector {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Perfil móvil */
+    .profile-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Detalle de producto móvil */
+    .product-detail {
+        flex-direction: column;
+    }
+    
+    .product-detail-image {
+        margin-bottom: 20px;
+    }
+    
+    .product-actions-detail {
+        flex-direction: column;
+    }
+    
+    /* Carrito móvil */
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .cart-item-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .quantity-controls {
+        justify-content: center;
+    }
+    
+    .cart-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    /* Modal móvil */
+    .modal-content {
+        margin: 20px;
+        padding: 20px;
+        width: calc(100% - 40px);
+    }
+    
+    /* Formularios móvil */
+    .auth-card {
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    /* Búsqueda móvil */
+    .search-box {
+        flex-direction: column;
+    }
+    
+    .filters-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    /* Historial de compras móvil */
+    .compra-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .compra-image {
+        margin: 0 auto 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustes para pantallas muy pequeñas */
+    .main-content {
+        padding: 10px;
+    }
+    
+    .profile-section {
+        padding: 15px;
+    }
+    
+    .auth-card {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+    }
+    
+    .product-actions {
+        flex-direction: column;
+    }
+    
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .info-item label {
+        min-width: auto;
+        margin-bottom: 5px;
+    }
+    
+    .product-detail-info h1 {
+        font-size: 1.5rem;
+    }
+    
+    .product-price {
+        font-size: 2rem;
+    }
+}
+
+/* Mejoras de usabilidad táctil */
+@media (hover: none) and (pointer: coarse) {
+    .btn, .nav-link, .account-type-card {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .product-card, .cart-item {
+        cursor: default;
+    }
+    
+    .product-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Impresión */
+@media print {
+    .navbar,
+    .search-container,
+    .filters-container,
+    .product-actions,
+    .cart-actions {
+        display: none !important;
+    }
+    
+    .main-content {
+        max-width: none;
+        padding: 0;
+    }
+    
+    .section {
+        display: block !important;
+    }
+}
+
+/* Animaciones para transiciones SPA */
+.section {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .section {
+        animation: none;
+    }
+    
+    .product-card {
+        transition: none;
+    }
+}
+
+/* Soporte para modo oscuro del sistema */
+@media (prefers-color-scheme: dark) {
+    /* Podrías agregar soporte para modo oscuro aquí si es necesario */
+}

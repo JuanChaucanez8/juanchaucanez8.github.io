@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - MiPlataforma</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🛍️ MiPlataforma</h2>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">🏠 Inicio</a>
+                <a href="productos.html" class="nav-link">📦 Productos</a>
+                
+                <!-- Enlaces para usuarios NO autenticados -->
+                <div id="authLinks" style="display: none;">
+                    <a href="login.html" class="nav-link">🔐 Iniciar Sesión</a>
+                    <a href="register.html" class="nav-link">📝 Registrarse</a>
+                </div>
+                
+                <!-- Menú para usuarios autenticados -->
+                <div id="userMenu" style="display: none;">
+                    <a href="#" id="profileLink" class="nav-link">👤 Mi Perfil</a>
+                    <a href="carrito.html" class="nav-link">🛒 Carrito (<span id="cartCount">0</span>)</a>
+                    <button id="logoutBtn" class="nav-link logout-btn">🚪 Cerrar Sesión</button>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar productos...">
+                <button id="searchBtn" class="btn btn-primary">Buscar</button>
+                <button id="clearSearchBtn" class="btn btn-secondary" style="display: none;">❌ Limpiar</button>
+            </div>
+        </div>
+
+        <div class="filters-container">
+            <div class="filter-group">
+                <label for="sortSelect">📊 Ordenar por:</label>
+                <select id="sortSelect">
+                    <option value="newest">🆕 Más recientes</option>
+                    <option value="price_asc">💰 Precio: Menor a Mayor</option>
+                    <option value="price_desc">💰 Precio: Mayor a Menor</option>
+                    <option value="name">🔤 Nombre A-Z</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="productsContainer" class="products-grid">
+            <!-- Los productos se cargarán dinámicamente aquí -->
+        </div>
+
+        <div id="loadingMessage" class="loading" style="display: none;">
+            <p>⏳ Cargando productos...</p>
+        </div>
+
+        <div id="noProductsMessage" class="no-products" style="display: none;">
+            <p>😔 No se encontraron productos.</p>
+            <a href="productos.html" class="btn btn-primary">🔄 Recargar</a>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/productos-publicos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

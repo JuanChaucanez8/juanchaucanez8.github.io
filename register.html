@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - MiPlataforma</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🛍️ MiPlataforma</h2>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">🏠 Inicio</a>
+                <a href="productos.html" class="nav-link">📦 Productos</a>
+                
+                <!-- Enlaces para usuarios NO autenticados -->
+                <div id="authLinks" style="display: none;">
+                    <a href="login.html" class="nav-link">🔐 Iniciar Sesión</a>
+                    <a href="register.html" class="nav-link">📝 Registrarse</a>
+                </div>
+                
+                <!-- Menú para usuarios autenticados -->
+                <div id="userMenu" style="display: none;">
+                    <a href="#" id="profileLink" class="nav-link">👤 Mi Perfil</a>
+                    <a href="carrito.html" class="nav-link">🛒 Carrito (<span id="cartCount">0</span>)</a>
+                    <button id="logoutBtn" class="nav-link logout-btn">🚪 Cerrar Sesión</button>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content auth-container">
+        <div class="auth-card">
+            <h2>Crear Cuenta</h2>
+            <p>Elige cómo quieres usar nuestra plataforma</p>
+            
+            <div class="account-type-selector">
+                <div class="account-type-card" data-type="vendedor">
+                    <h3>🏪 Vendedor</h3>
+                    <p>Publica y vende tus productos</p>
+                    <ul>
+                        <li>Gestiona tu inventario</li>
+                        <li>Controla tus ventas</li>
+                        <li>Estadísticas de negocio</li>
+                    </ul>
+                </div>
+                
+                <div class="account-type-card" data-type="comprador">
+                    <h3>🛍️ Comprador</h3>
+                    <p>Encuentra y compra productos</p>
+                    <ul>
+                        <li>Explora catálogo completo</li>
+                        <li>Historial de compras</li>
+                        <li>Carrito de compras</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Formulario de registro -->
+            <form id="registerForm" class="auth-form" style="display: none;">
+                <h3 id="formTitle">Registro</h3>
+                <input type="hidden" id="userType" name="userType">
+                
+                <div class="form-group">
+                    <label for="email">📧 Correo electrónico</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">🔒 Contraseña</label>
+                    <input type="password" id="password" name="password" minlength="6" required>
+                    <small>Mínimo 6 caracteres</small>
+                </div>
+                
+                <!-- Campos para vendedor -->
+                <div id="vendedorFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="nombre">👤 Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="negocio">🏪 Nombre del negocio</label>
+                        <input type="text" id="negocio" name="negocio" required>
+                    </div>
+                </div>
+                
+                <!-- Campos para comprador -->
+                <div id="compradorFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="nombreComprador">👤 Nombre completo</label>
+                        <input type="text" id="nombreComprador" name="nombreComprador" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">🚀 Crear Cuenta</button>
+            </form>
+            
+            <p class="auth-link">
+                ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- Script adicional para manejar la validación del formulario -->
+    <script>
+        // Manejar la validación del formulario para evitar el error
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const vendedorFields = document.getElementById('vendedorFields');
+            const compradorFields = document.getElementById('compradorFields');
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    // Remover el atributo required de los campos ocultos
+                    const hiddenRequiredFields = this.querySelectorAll('[required]');
+                    hiddenRequiredFields.forEach(field => {
+                        if (!field.offsetParent) { // Si el campo está oculto
+                            field.removeAttribute('required');
+                        }
+                    });
+                    
+                    // La validación real se maneja en auth.js
+                });
+            }
+        });
+    </script>
+</body>
+</html>

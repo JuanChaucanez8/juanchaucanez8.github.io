@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - MiPlataforma</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🛍️ MiPlataforma</h2>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">🏠 Inicio</a>
+                <a href="productos.html" class="nav-link">📦 Productos</a>
+                <div id="userMenu">
+                    <a href="profile-comprador.html" class="nav-link">👤 Mi Perfil</a>
+                    <a href="carrito.html" class="nav-link">🛒 Carrito (<span id="cartCount">0</span>)</a>
+                    <button id="logoutBtn" class="nav-link logout-btn">🚪 Cerrar Sesión</button>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content profile-container">
+        <div class="profile-header">
+            <h1>👤 Mi Perfil</h1>
+            <button id="editProfileBtn" class="btn btn-secondary">✏️ Editar Perfil</button>
+        </div>
+        
+        <div class="profile-sections">
+            <!-- Sección de información personal -->
+            <section class="profile-section">
+                <h2>📋 Información Personal</h2>
+                <div class="profile-info">
+                    <div class="info-item">
+                        <label>👤 Nombre:</label>
+                        <span id="profileNombre"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>📧 Email:</label>
+                        <span id="profileEmail"></span>
+                    </div>
+                    <div class="info-item">
+                        <label>📄 Descripción:</label>
+                        <span id="profileDescripcion"></span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección de estadísticas -->
+            <section class="profile-section">
+                <h2>📊 Estadísticas</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="objetosComprados">0</h3>
+                        <p>📦 Objetos Comprados</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="comprasRealizadas">0</h3>
+                        <p>🛒 Compras Realizadas</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sección de historial de compras -->
+            <section class="profile-section">
+                <h2>📋 Historial de Compras</h2>
+                <div id="historialCompras" class="compras-list">
+                    <!-- El historial se cargará dinámicamente aquí -->
+                </div>
+            </section>
+        </div>
+        
+        <!-- Modal para editar perfil -->
+        <div id="editProfileModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>✏️ Editar Perfil</h2>
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label for="editNombre">👤 Nombre completo</label>
+                        <input type="text" id="editNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescripcion">📄 Descripción (opcional)</label>
+                        <textarea id="editDescripcion" rows="4" placeholder="Cuéntanos algo sobre ti..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelEditBtn">❌ Cancelar</button>
+                        <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/comprador.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
